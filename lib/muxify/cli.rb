@@ -5,13 +5,13 @@ require 'muxify/linker'
 module Muxify
   class CLI < Thor
     desc "add", "Adds tmuxinator config for current path"
-    def add
-      Muxify::Linker.(root: Dir.pwd)
+    def add(root = Dir.pwd)
+      Muxify::Linker.(root: root)
     end
 
     desc "debug", "Prints tmuxinator config of current path to stdout"
-    def debug
-      puts Muxify::Builder.(root: Dir.pwd)
+    def debug(root = Dir.pwd)
+      puts Muxify::Builder.(root: root)
     end
   end
 end
