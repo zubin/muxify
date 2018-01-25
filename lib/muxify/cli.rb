@@ -13,5 +13,10 @@ module Muxify
     def debug(root = Dir.pwd)
       puts Muxify::Builder.(root: root)
     end
+
+    desc "stop", "Kills tmux session"
+    def stop(name = File.basename(Dir.pwd))
+      Kernel.system("tmux kill-session -t #{name}")
+    end
   end
 end
