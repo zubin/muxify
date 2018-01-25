@@ -1,2 +1,2 @@
-require "muxify/cli"
-require "muxify/version"
+require 'muxify/cli'
+require 'muxify/version'

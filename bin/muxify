@@ -4,7 +4,7 @@ if File.directory? File.expand_path('../../.git', __FILE__)
   $:.unshift File.expand_path('../../lib', __FILE__)
 end
 
-require "bundler/setup"
-require "muxify"
+require 'bundler/setup'
+require 'muxify'
 
 Muxify::CLI.start(ARGV)

@@ -1,6 +1,6 @@
-require "thor"
-require "muxify/builder"
-require "muxify/linker"
+require 'thor'
+require 'muxify/builder'
+require 'muxify/linker'
 
 module Muxify
   class CLI < Thor
