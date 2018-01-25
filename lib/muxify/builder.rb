@@ -2,6 +2,9 @@ require 'yaml'
 
 module Muxify
   class Builder
+    CUSTOM_CONFIG_PATH = File.join(ENV['HOME'], '.muxifyrc')
+    private_constant :CUSTOM_CONFIG_PATH
+
     def self.call(*args)
       new(*args).to_yaml
     end
@@ -28,7 +31,15 @@ module Muxify
     end
 
     def windows
-      Windows.new(root).all
+      Windows.new(root).all.tap do |windows|
+        custom_windows.each do |name, command|
+          windows << {name => command}
+        end
+      end
+    end
+
+    def custom_windows
+      YAML.load_file(CUSTOM_CONFIG_PATH).dig(name, 'windows') || {}
     end
 
     class Windows
