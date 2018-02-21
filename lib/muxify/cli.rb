@@ -11,7 +11,7 @@ module Muxify
 
     desc "debug", "Prints tmuxinator config of current (or supplied) path to stdout"
     def debug(root = Dir.pwd)
-      puts Muxify::Builder.(root: root)
+      puts Muxify::Builder.(root)
     end
 
     desc "stop", "Kills tmux session"

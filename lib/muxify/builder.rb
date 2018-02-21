@@ -9,7 +9,7 @@ module Muxify
       new(*args).to_yaml
     end
 
-    def initialize(root:, name: nil)
+    def initialize(root, name: nil)
       @root = File.expand_path(root)
       @name = name || File.basename(@root)
     end
