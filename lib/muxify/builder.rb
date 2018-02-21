@@ -66,7 +66,15 @@ module Muxify
       attr_reader :root
 
       def shell
-        [{'shell' => ('git fetch; git status' if git?)}]
+        [{'shell' => init_shell}]
+      end
+
+      def init_shell
+        if git?
+          'git fetch; git status'
+        else
+          'echo "Not a git repository."'
+        end
       end
 
       def git?
