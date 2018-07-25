@@ -87,11 +87,16 @@ module Muxify
 
       def logs
         return [] if logfiles.empty?
+        logfiles.each(&method(:truncate_file))
         [{'logs' => 'tail -f log/*.log'}]
       end
 
       def logfiles
         @logfiles ||= Dir["#{root}/log/*.log"]
+      end
+
+      def truncate_file(path)
+        File.truncate(path, 0)
       end
 
       def foreman
