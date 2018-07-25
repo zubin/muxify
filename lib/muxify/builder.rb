@@ -86,8 +86,12 @@ module Muxify
       end
 
       def logs
-        return [] if Dir["#{root}/log/*.log"].empty?
+        return [] if logfiles.empty?
         [{'logs' => 'tail -f log/*.log'}]
+      end
+
+      def logfiles
+        @logfiles ||= Dir["#{root}/log/*.log"]
       end
 
       def foreman
