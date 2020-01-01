@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'thor'
 require 'muxify/builder'
 require 'muxify/linker'
