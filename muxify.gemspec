@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-lib = File.expand_path('../lib', __FILE__)
+lib = File.expand_path('lib', __dir__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 require 'muxify/version'
 
@@ -10,7 +10,7 @@ Gem::Specification.new do |spec|
   spec.authors       = ["Zubin Henner"]
   spec.email         = ['zubin@users.noreply.github.com']
 
-  spec.summary       = %q{Simple tmux project config}
+  spec.summary       = "Simple tmux project config"
   spec.homepage      = 'https://github.com/zubin/muxify'
 
   spec.files         = `git ls-files -z`.split("\x0").reject do |f|
