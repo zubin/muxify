@@ -65,7 +65,7 @@ Depending on its type, this will create the following tmux windows for a project
 
 To add a custom tmux window for a project:
 
-1. Create a file called `~/.muxify`.
+1. Create a file called `~/.muxifyrc`.
 1. Edit it in YAML format; eg to add a tmux window to `my_app` project which is named `server` and invokes `yarn dev`:
 ```yaml
 my_app:
