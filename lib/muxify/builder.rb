@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'yaml'
 
 module Muxify
@@ -39,7 +41,9 @@ module Muxify
     end
 
     def custom_windows
-      YAML.load_file(CUSTOM_CONFIG_PATH).dig(name, 'windows') || {}
+      return {} unless File.exist?(CUSTOM_CONFIG_PATH)
+
+      YAML.load_file(CUSTOM_CONFIG_PATH).dig(name, 'windows')
     end
 
     class Windows
