@@ -43,7 +43,7 @@ module Muxify
     def custom_windows
       return {} unless File.exist?(CUSTOM_CONFIG_PATH)
 
-      YAML.load_file(CUSTOM_CONFIG_PATH).dig(name, 'windows')
+      YAML.load_file(CUSTOM_CONFIG_PATH).dig(name, 'windows') || {}
     end
 
     class Windows
