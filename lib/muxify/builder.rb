@@ -122,6 +122,7 @@ module Muxify
         [
           {'db' => 'rails db'},
           {'console' => 'rails console'},
+          {'server' => File.expand_path('../../bin/rails_server_with_puma_dev', __dir__)},
         ]
       end
 
