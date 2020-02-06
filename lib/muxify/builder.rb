@@ -91,6 +91,7 @@ module Muxify
 
       def logs
         return [] if logfiles.empty?
+
         logfiles.each(&method(:truncate_file))
         [{'logs' => 'tail -f log/*.log'}]
       end
@@ -105,6 +106,7 @@ module Muxify
 
       def foreman
         return [] unless foreman?
+
         [{'foreman' => <<-SH.strip}]
         ps aux | grep 'unicorn_rails master' | awk '{print $2}' | xargs kill; foreman start
         SH
@@ -116,6 +118,7 @@ module Muxify
 
       def rails
         return [] unless rails?
+
         [
           {'db' => 'rails db'},
           {'console' => 'rails console'},
@@ -128,6 +131,7 @@ module Muxify
 
       def elixir_non_phoenix
         return [] unless elixir_non_phoenix?
+
         [
           {'console' => 'iex -S mix'},
           {'server' => 'mix'},
@@ -140,6 +144,7 @@ module Muxify
 
       def phoenix
         return [] unless phoenix?
+
         [
           {'console' => 'iex -S mix phoenix.server'},
           {'server' => 'mix phoenix.server'},
@@ -152,6 +157,7 @@ module Muxify
 
       def nodejs
         return [] unless nodejs?
+
         [
           {'console' => 'node'},
         ]
@@ -163,6 +169,7 @@ module Muxify
 
       def django
         return [] unless django?
+
         [
           {'db' => 'python manage.py dbshell'},
           {'console' => 'python manage.py shell'},
@@ -172,7 +179,7 @@ module Muxify
 
       def django?
         python_requirements = File.join(root, 'requirements.txt')
-        File.exists?(python_requirements) && File.read(python_requirements).include?('django')
+        File.exist?(python_requirements) && File.read(python_requirements).include?('django')
       end
 
       def directory?(relative_path)
@@ -180,7 +187,7 @@ module Muxify
       end
 
       def exists?(relative_path)
-        File.exists?(File.join(root, relative_path))
+        File.exist?(File.join(root, relative_path))
       end
     end
   end
