@@ -48,6 +48,7 @@ Depending on its type, this will create the following tmux windows for a project
 - Rails (identified by presence of `bin/rails`)
   - db (`rails db`)
   - console (`rails console`)
+  - server (configures puma-dev then `rails server`; see [code](./bin/rails_server_with_puma_dev))
 - NodeJS (identified by presence of `package.json` when non-Rails)
   - console (`node`)
 - Elixir (identified by presence of `mix.exs` when non-Phoenix)
