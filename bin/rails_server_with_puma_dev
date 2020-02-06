@@ -1,0 +1,53 @@
+#!/usr/bin/env bash
+
+# Starts rails server with a random port and configures puma-dev
+# Usage:
+#     rails_server_with_puma_dev [HOSTNAME]
+#         HOSTNAME should not include the `.test` extension.
+#         If HOSTNAME isn't supplied, it defaults to current directory name
+#         (underscores are converted to dashes).
+
+set -euo pipefail
+
+min_port=3000
+max_port=4000
+puma_dev_config_path="$HOME/.puma-dev"
+
+find_available_port() {
+  netstat -aln | awk -v min_port="$min_port" -v max_port="$max_port" '
+    $6 == "LISTEN" {
+      if ($4 ~ "[.:][0-9]+$") {
+        split($4, a, /[:.]/);
+        port = a[length(a)];
+        p[port] = 1
+      }
+    }
+    END {
+      for (i = min_port; i < max_port && p[i]; i++) {};
+      if (i == max_port) { exit 1 };
+      print i
+    }
+  '
+}
+
+get_target_hostname() {
+  if (( $# == 0 )); then
+    echo "$(basename "$(pwd)" | tr '_' '-')"
+  else
+    echo $1
+  fi
+}
+
+configure_puma_dev() {
+  target_config_path="$puma_dev_config_path/$host"
+  echo "Configuring puma-dev:  $host.test:$port ($target_config_path)"
+  echo "$port" > "$target_config_path"
+  puma-dev -stop
+  pkill -USR1 puma-dev
+}
+
+target_port="$(find_available_port)"
+target_host="$(get_target_hostname "$@")"
+
+host="$target_host" port="$target_port" configure_puma_dev
+bundle exec rails server -p "$target_port"
