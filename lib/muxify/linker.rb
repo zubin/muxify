@@ -7,8 +7,8 @@ module Muxify
     TMUXINATOR_CONFIG_PATH = File.expand_path(File.join(ENV.fetch('HOME'), '.tmuxinator')).freeze
     private_constant :TMUXINATOR_CONFIG_PATH
 
-    def self.call(*args)
-      new(*args).call
+    def self.call(**args)
+      new(**args).call
     end
 
     def initialize(root:)
