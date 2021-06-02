@@ -11,9 +11,10 @@ module Muxify
       new(*args).to_yaml
     end
 
-    def initialize(root, name: nil)
+    def initialize(root, name: nil, custom_config_path: CUSTOM_CONFIG_PATH)
       @root = File.expand_path(root)
       @name = name || File.basename(@root)
+      @custom_config_path = custom_config_path
     end
 
     def to_yaml
@@ -22,7 +23,7 @@ module Muxify
 
     private
 
-    attr_reader :root, :name
+    attr_reader :root, :name, :custom_config_path
 
     def config
       {
@@ -41,9 +42,9 @@ module Muxify
     end
 
     def custom_windows
-      return {} unless File.exist?(CUSTOM_CONFIG_PATH)
+      return {} unless File.exist?(custom_config_path)
 
-      YAML.load_file(CUSTOM_CONFIG_PATH).dig(name, 'windows') || {}
+      YAML.load_file(custom_config_path).dig(name, 'windows') || {}
     end
 
     class Windows
