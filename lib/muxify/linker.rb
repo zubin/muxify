@@ -3,7 +3,7 @@
 require 'fileutils'
 
 module Muxify
-  class Linker
+  class Linker # rubocop:disable Style/Documentation
     TMUXINATOR_CONFIG_PATH = File.expand_path(File.join(ENV.fetch('HOME'), '.tmuxinator')).freeze
     private_constant :TMUXINATOR_CONFIG_PATH
 

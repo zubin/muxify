@@ -3,7 +3,7 @@
 require 'yaml'
 
 module Muxify
-  class Builder
+  class Builder # rubocop:disable Style/Documentation
     CUSTOM_CONFIG_PATH = File.join(ENV['HOME'], '.muxifyrc')
     private_constant :CUSTOM_CONFIG_PATH
 
@@ -46,7 +46,7 @@ module Muxify
       YAML.load_file(CUSTOM_CONFIG_PATH).dig(name, 'windows') || {}
     end
 
-    class Windows
+    class Windows # rubocop:disable Style/Documentation
       def initialize(root)
         @root = root
       end
@@ -73,11 +73,9 @@ module Muxify
       end
 
       def init_shell
-        if git?
-          'git fetch; git status'
-        else
-          'echo "Not a git repository."'
-        end
+        return 'echo "Not a git repository."' unless git?
+
+        'git fetch; git status'
       end
 
       def git?
