@@ -28,14 +28,14 @@ module Muxify
       {
         'name' => name,
         'root' => root,
-        'windows' => windows,
+        'windows' => windows
       }
     end
 
     def windows
       Windows.new(root).all.tap do |windows|
         custom_windows.each do |name, command|
-          windows << {name => command}
+          windows << { name => command }
         end
       end
     end
@@ -60,7 +60,7 @@ module Muxify
           *elixir_non_phoenix,
           *phoenix,
           *nodejs,
-          *django,
+          *django
         ]
       end
 
@@ -69,7 +69,7 @@ module Muxify
       attr_reader :root
 
       def shell
-        [{'shell' => init_shell}]
+        [{ 'shell' => init_shell }]
       end
 
       def init_shell
@@ -85,14 +85,14 @@ module Muxify
       end
 
       def editor
-        [{'editor' => ENV.fetch('EDITOR', 'vim')}]
+        [{ 'editor' => ENV.fetch('EDITOR', 'vim') }]
       end
 
       def logs
         return [] if logfiles.empty?
 
         logfiles.each(&method(:truncate_file))
-        [{'logs' => 'tail -f log/*.log'}]
+        [{ 'logs' => 'tail -f log/*.log' }]
       end
 
       def logfiles
@@ -107,9 +107,9 @@ module Muxify
         return [] unless rails?
 
         [
-          {'db' => 'rails db'},
-          {'console' => 'rails console'},
-          {'server' => File.expand_path('../../bin/rails_server_with_puma_dev', __dir__)},
+          { 'db' => 'rails db' },
+          { 'console' => 'rails console' },
+          { 'server' => File.expand_path('../../bin/rails_server_with_puma_dev', __dir__) }
         ]
       end
 
@@ -121,8 +121,8 @@ module Muxify
         return [] unless elixir_non_phoenix?
 
         [
-          {'console' => 'iex -S mix'},
-          {'server' => 'mix'},
+          { 'console' => 'iex -S mix' },
+          { 'server' => 'mix' }
         ]
       end
 
@@ -134,8 +134,8 @@ module Muxify
         return [] unless phoenix?
 
         [
-          {'console' => 'iex -S mix phoenix.server'},
-          {'server' => 'mix phoenix.server'},
+          { 'console' => 'iex -S mix phoenix.server' },
+          { 'server' => 'mix phoenix.server' }
         ]
       end
 
@@ -147,7 +147,7 @@ module Muxify
         return [] unless nodejs?
 
         [
-          {'console' => 'node'},
+          { 'console' => 'node' }
         ]
       end
 
@@ -159,9 +159,9 @@ module Muxify
         return [] unless django?
 
         [
-          {'db' => 'python manage.py dbshell'},
-          {'console' => 'python manage.py shell'},
-          {'server' => 'python manage.py runserver'},
+          { 'db' => 'python manage.py dbshell' },
+          { 'console' => 'python manage.py shell' },
+          { 'server' => 'python manage.py runserver' }
         ]
       end
 

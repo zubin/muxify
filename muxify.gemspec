@@ -7,10 +7,10 @@ require 'muxify/version'
 Gem::Specification.new do |spec|
   spec.name          = 'muxify'
   spec.version       = Muxify::VERSION
-  spec.authors       = ["Zubin Henner"]
+  spec.authors       = ['Zubin Henner']
   spec.email         = ['zubin@users.noreply.github.com']
 
-  spec.summary       = "Simple tmux project config"
+  spec.summary       = 'Simple tmux project config'
   spec.homepage      = 'https://github.com/zubin/muxify'
 
   spec.files         = `git ls-files -z`.split("\x0").reject do |f|
