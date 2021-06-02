@@ -42,9 +42,18 @@ module Muxify
     end
 
     def custom_windows
-      return {} unless File.exist?(custom_config_path)
+      return {} unless custom_config.key?('windows')
 
       YAML.load_file(custom_config_path).dig(name, 'windows') || {}
+    end
+
+    def custom_config
+      return {} unless File.exist?(custom_config_path)
+
+      yaml = YAML.load_file(custom_config_path)
+      return {} unless yaml
+
+      yaml.fetch(name, {})
     end
 
     class Windows
