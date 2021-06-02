@@ -56,7 +56,6 @@ module Muxify
           *shell,
           *editor,
           *logs,
-          *foreman,
           *rails,
           *elixir_non_phoenix,
           *phoenix,
@@ -102,18 +101,6 @@ module Muxify
 
       def truncate_file(path)
         File.truncate(path, 0)
-      end
-
-      def foreman
-        return [] unless foreman?
-
-        [{'foreman' => <<-SH.strip}]
-        ps aux | grep 'unicorn_rails master' | awk '{print $2}' | xargs kill; foreman start
-        SH
-      end
-
-      def foreman?
-        # TODO?
       end
 
       def rails
