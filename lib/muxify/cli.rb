@@ -5,7 +5,7 @@ require 'muxify/builder'
 require 'muxify/linker'
 
 module Muxify
-  class CLI < Thor # rubocop:disable Style/Documentation
+  class CLI < Thor
     desc 'add', 'Adds tmuxinator config for current (or supplied) path'
     def add(root = Dir.pwd)
       Muxify::Linker.call(root: root)
