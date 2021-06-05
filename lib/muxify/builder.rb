@@ -11,9 +11,10 @@ module Muxify
       new(*args).to_yaml
     end
 
-    def initialize(root, name: nil)
+    def initialize(root, name: nil, custom_config_path: CUSTOM_CONFIG_PATH)
       @root = File.expand_path(root)
       @name = name || File.basename(@root)
+      @custom_config_path = custom_config_path
     end
 
     def to_yaml
@@ -22,7 +23,7 @@ module Muxify
 
     private
 
-    attr_reader :root, :name
+    attr_reader :root, :name, :custom_config_path
 
     def config
       {
@@ -41,9 +42,18 @@ module Muxify
     end
 
     def custom_windows
-      return {} unless File.exist?(CUSTOM_CONFIG_PATH)
+      return {} unless custom_config.key?('windows')
 
-      YAML.load_file(CUSTOM_CONFIG_PATH).dig(name, 'windows') || {}
+      YAML.load_file(custom_config_path).dig(name, 'windows') || {}
+    end
+
+    def custom_config
+      return {} unless File.exist?(custom_config_path)
+
+      yaml = YAML.load_file(custom_config_path)
+      return {} unless yaml
+
+      yaml.fetch(name, {})
     end
 
     class Windows
@@ -56,7 +66,6 @@ module Muxify
           *shell,
           *editor,
           *logs,
-          *foreman,
           *rails,
           *elixir_non_phoenix,
           *phoenix,
@@ -74,11 +83,9 @@ module Muxify
       end
 
       def init_shell
-        if git?
-          'git fetch; git status'
-        else
-          'echo "Not a git repository."'
-        end
+        return 'echo "Not a git repository."' unless git?
+
+        'git fetch; git status'
       end
 
       def git?
@@ -102,18 +109,6 @@ module Muxify
 
       def truncate_file(path)
         File.truncate(path, 0)
-      end
-
-      def foreman
-        return [] unless foreman?
-
-        [{'foreman' => <<-SH.strip}]
-        ps aux | grep 'unicorn_rails master' | awk '{print $2}' | xargs kill; foreman start
-        SH
-      end
-
-      def foreman?
-        # TODO?
       end
 
       def rails
