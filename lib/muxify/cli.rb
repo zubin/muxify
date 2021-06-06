@@ -20,5 +20,10 @@ module Muxify
     def stop(name = File.basename(Dir.pwd))
       Kernel.system("tmux kill-session -t #{name}")
     end
+
+    desc 'version', 'Print current version'
+    def version
+      puts Muxify::VERSION
+    end
   end
 end
