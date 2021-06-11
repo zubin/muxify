@@ -142,8 +142,8 @@ module Muxify
         return [] unless phoenix?
 
         [
-          {'console' => 'iex -S mix phoenix.server'},
-          {'server' => 'mix phoenix.server'},
+          {'console' => 'iex -S mix phx.server'},
+          {'server' => 'mix phx.server'},
         ]
       end
 
