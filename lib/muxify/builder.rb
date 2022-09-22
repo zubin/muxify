@@ -44,8 +44,8 @@ module Muxify
     def custom_windows
       custom_config_paths.each_with_object({}) do |custom_config_path, result|
         [
-          YAML.load_file(custom_config_path)&.dig(name, "windows"),
-          YAML.load_file(custom_config_path)&.dig("windows")
+          YAML.safe_load_file(custom_config_path)&.dig(name, "windows"),
+          YAML.safe_load_file(custom_config_path)&.dig("windows")
         ].compact.each(&result.method(:merge!))
       end
     end

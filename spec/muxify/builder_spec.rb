@@ -2,7 +2,7 @@
 
 RSpec.describe Muxify::Builder do
   describe "#to_yaml" do
-    subject(:parsed_yaml) { YAML.load(builder.to_yaml) }
+    subject(:parsed_yaml) { YAML.safe_load(builder.to_yaml) }
 
     context "without custom config" do
       let(:builder) { described_class.new(fixture_project_path(project_type: "empty")) }
