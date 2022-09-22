@@ -1,4 +1,6 @@
 ---
 with_custom_config:
   windows:
-    foo: bar
+    nested_by_project: "true"
+windows:
+  not_nested: "true"

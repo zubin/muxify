@@ -30,7 +30,8 @@ RSpec.describe Muxify::Builder do
 
       it "applies kwarg .muxifyrc" do
         expect(File).to exist(custom_config_path), custom_config_path
-        expect(parsed_yaml["windows"]).to include("foo" => "bar")
+        expect(parsed_yaml["windows"]).to include("nested_by_project" => "true")
+        expect(parsed_yaml["windows"]).to include("not_nested" => "true")
       end
     end
 
@@ -39,7 +40,8 @@ RSpec.describe Muxify::Builder do
       let(:project_path) { fixture_project_path(project_type: 'with_custom_config') }
 
       it "applies project .muxifyrc" do
-        expect(parsed_yaml["windows"]).to include("foo" => "bar")
+        expect(parsed_yaml["windows"]).to include("nested_by_project" => "true")
+        expect(parsed_yaml["windows"]).to include("not_nested" => "true")
       end
     end
   end
