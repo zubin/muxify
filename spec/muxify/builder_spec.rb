@@ -2,13 +2,13 @@
 
 RSpec.describe Muxify::Builder do
   describe '#to_yaml' do
-    subject(:to_yaml) { builder.to_yaml }
+    subject(:parsed_yaml) { YAML.parse(builder.to_yaml) }
 
     context "without custom config" do
       let(:builder) { described_class.new(fixture_project_path(project_type: 'empty')) }
 
       it "returns valid YAML" do
-        expect { YAML.parse(to_yaml) }.not_to raise_error
+        expect { parsed_yaml }.not_to raise_error
       end
     end
 
@@ -19,7 +19,7 @@ RSpec.describe Muxify::Builder do
 
       it "returns valid YAML" do
         expect(File).to exist(custom_config_path), custom_config_path
-        expect { YAML.parse(to_yaml) }.not_to raise_error
+        expect { parsed_yaml }.not_to raise_error
       end
     end
   end
