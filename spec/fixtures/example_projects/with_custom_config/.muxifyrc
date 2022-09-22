@@ -1,0 +1,6 @@
+---
+with_custom_config:
+  windows:
+    nested_by_project: "true"
+windows:
+  not_nested: "true"
