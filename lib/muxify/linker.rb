@@ -1,10 +1,10 @@
 # frozen_string_literal: true
 
-require 'fileutils'
+require "fileutils"
 
 module Muxify
   class Linker
-    TMUXINATOR_CONFIG_PATH = File.expand_path(File.join(ENV.fetch('HOME'), '.tmuxinator')).freeze
+    TMUXINATOR_CONFIG_PATH = File.expand_path(File.join(ENV.fetch("HOME"), ".tmuxinator")).freeze
     private_constant :TMUXINATOR_CONFIG_PATH
 
     def self.call(**args)
@@ -17,7 +17,7 @@ module Muxify
 
     def call
       FileUtils.mkdir_p(TMUXINATOR_CONFIG_PATH)
-      File.open(config_path, 'w') { |f| f << contents }
+      File.open(config_path, "w") { |f| f << contents }
     end
 
     private
