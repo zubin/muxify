@@ -4,14 +4,14 @@ require 'yaml'
 
 module Muxify
   class Builder
-    CUSTOM_CONFIG_PATH = File.join(ENV['HOME'], '.muxifyrc')
-    private_constant :CUSTOM_CONFIG_PATH
+    DEFAULT_CUSTOM_CONFIG_PATH = File.join(ENV['HOME'], '.muxifyrc')
+    private_constant :DEFAULT_CUSTOM_CONFIG_PATH
 
     def self.call(*args)
       new(*args).to_yaml
     end
 
-    def initialize(root, name: nil, custom_config_path: CUSTOM_CONFIG_PATH)
+    def initialize(root, name: nil, custom_config_path: nil)
       @root = File.expand_path(root)
       @name = name || File.basename(@root)
       @custom_config_path = custom_config_path
@@ -42,18 +42,24 @@ module Muxify
     end
 
     def custom_windows
-      return {} unless custom_config.key?('windows')
-
-      YAML.load_file(custom_config_path).dig(name, 'windows') || {}
+      custom_config_paths.each_with_object({}) do |custom_config_path, result|
+        [
+          YAML.load_file(custom_config_path)&.dig(name, 'windows'),
+          YAML.load_file(custom_config_path)&.dig('windows'),
+        ].compact.each(&result.method(:merge!))
+      end
     end
 
-    def custom_config
-      return {} unless File.exist?(custom_config_path)
+    def custom_config_paths
+      [
+        DEFAULT_CUSTOM_CONFIG_PATH,
+        project_custom_config_path,
+        custom_config_path,
+      ].compact.uniq.select(&File.method(:exist?))
+    end
 
-      yaml = YAML.load_file(custom_config_path)
-      return {} unless yaml
-
-      yaml.fetch(name, {})
+    def project_custom_config_path
+      File.join(root, '.muxifyrc')
     end
 
     class Windows
