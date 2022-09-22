@@ -64,7 +64,9 @@ Depending on its type, this will create the following tmux windows for a project
 
 ## Customising projects
 
-To add a custom tmux window for a project:
+Each project may have custom windows via a `.muxifyrc` file.
+
+### Using a .muxifyrc in your home directory
 
 1. Create a file called `~/.muxifyrc`.
 1. Edit it in YAML format; eg to add a tmux window to `my_app` project which is named `server` and invokes `yarn dev`:
@@ -73,6 +75,23 @@ To add a custom tmux window for a project:
 my_app:
   windows:
     server: yarn dev
+```
+
+If you want a custom window for all projects:
+
+```yaml
+windows:
+  echo_all_projects: "echo 'this will apply to all projects'"
+```
+
+### Using a .muxifyrc in your project directory
+
+1. Create a file called `my_app/.muxifyrc` (given your project is in `my_app`).
+1. Edit it in YAML format; eg to add a tmux window to `my_app` project which is named `server` and invokes `yarn dev`:
+
+```yaml
+windows:
+  server: yarn dev
 ```
 
 ## Thanks
