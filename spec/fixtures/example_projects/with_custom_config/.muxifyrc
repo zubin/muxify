@@ -1,0 +1,4 @@
+---
+with_custom_config:
+  windows:
+    foo: bar

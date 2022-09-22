@@ -22,6 +22,17 @@ RSpec.describe Muxify::Builder do
         expect { parsed_yaml }.not_to raise_error
       end
     end
+
+    context "with custom config (kwarg)" do
+      let(:builder) { described_class.new(project_path, custom_config_path: custom_config_path) }
+      let(:project_path) { fixture_project_path(project_type: 'with_custom_config') }
+      let(:custom_config_path) { File.join(project_path, '.muxifyrc') }
+
+      it "applies kwarg .muxifyrc" do
+        expect(File).to exist(custom_config_path), custom_config_path
+        expect(parsed_yaml["windows"]).to include("foo" => "bar")
+      end
+    end
   end
 
   def fixture_project_path(project_type:)
