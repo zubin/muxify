@@ -94,6 +94,23 @@ RSpec.describe Muxify::Builder do
       end
     end
 
+    context "with a non-Phoenix Elixir app" do
+      before do
+        FileUtils.touch(File.join(project_path, "mix.exs"))
+      end
+
+      let(:expected_windows) do
+        {
+          "console" => "iex -S mix",
+          "server" => "mix",
+        }
+      end
+
+      it "adds expected windows" do
+        expect(parsed_yaml).to eq(expected_config(expected_windows))
+      end
+    end
+
     def expected_config(extra_windows)
       {
         "name" => File.basename(project_path),
