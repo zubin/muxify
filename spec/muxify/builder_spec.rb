@@ -46,7 +46,7 @@ RSpec.describe Muxify::Builder do
         "name" => File.basename(project_path),
         "root" => project_path,
         "windows" => [
-          {"shell" => "echo \"Not a git repository.\""},
+          {"shell" => "git fetch; git status"},
           {"editor" => ENV["EDITOR"] || "vim"},
         ] + extra_windows.each_with_object([]) { |(k, v), result| result << {k => v} },
       }

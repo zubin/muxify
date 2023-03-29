@@ -95,7 +95,7 @@ module Muxify
       end
 
       def git?
-        directory?(".git")
+        system("git rev-parse &>/dev/null")
       end
 
       def editor
