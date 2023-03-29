@@ -73,6 +73,27 @@ RSpec.describe Muxify::Builder do
       end
     end
 
+    context "with a Rails app" do
+      before do
+        Dir.chdir(project_path) do
+          Dir.mkdir("bin")
+          FileUtils.touch("bin/rails")
+        end
+      end
+
+      let(:expected_windows) do
+        {
+          "db" => "rails db",
+          "console" => "rails console",
+          "server" => File.join(Muxify.root, "bin/rails_server_with_puma_dev"),
+        }
+      end
+
+      it "adds expected windows" do
+        expect(parsed_yaml).to eq(expected_config(expected_windows))
+      end
+    end
+
     def expected_config(extra_windows)
       {
         "name" => File.basename(project_path),
