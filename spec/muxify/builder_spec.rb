@@ -92,6 +92,16 @@ RSpec.describe Muxify::Builder do
       it "adds expected windows" do
         expect(parsed_yaml).to eq(expected_config(expected_windows))
       end
+
+      context "with a package.json file" do
+        before do
+          FileUtils.touch(File.join(project_path, "package.json"))
+        end
+
+        it "doesn't add NodeJS windows" do
+          expect(parsed_yaml).to eq(expected_config(expected_windows))
+        end
+      end
     end
 
     context "with a non-Phoenix Elixir app" do
