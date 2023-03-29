@@ -39,16 +39,14 @@ RSpec.describe Muxify::Builder do
 
     context "with custom config" do
       before do
-        File.open(File.join(project_path, ".muxifyrc"), "w") do |file|
-          file << <<~YAML
-            ---
-            #{File.basename(project_path)}:
-              windows:
-                nested_by_project: "true"
+        File.write(File.join(project_path, ".muxifyrc"), <<~YAML)
+          ---
+          #{File.basename(project_path)}:
             windows:
-              not_nested: "true"
-          YAML
-        end
+              nested_by_project: "true"
+          windows:
+            not_nested: "true"
+        YAML
       end
 
       it "applies .muxifyrc config" do
@@ -59,7 +57,7 @@ RSpec.describe Muxify::Builder do
     context "with a logfile" do
       before do
         Dir.mkdir(File.dirname(logfile))
-        File.open(logfile, "w") { |file| file << "some logs" }
+        File.write(logfile, "some logs")
       end
 
       let(:logfile) { File.join(project_path, "log/debug.log") }
@@ -156,9 +154,7 @@ RSpec.describe Muxify::Builder do
 
     context "with a Django app" do
       before do
-        Dir.chdir(project_path) do
-          File.open("requirements.txt", "w") { |file| file << "django" }
-        end
+        File.write(File.join(project_path, "requirements.txt"), "django")
       end
 
       let(:expected_windows) do
