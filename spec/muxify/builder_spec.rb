@@ -1,15 +1,24 @@
 # frozen_string_literal: true
 
+require "fileutils"
+require "tmpdir"
+
 RSpec.describe Muxify::Builder do
   describe ".call" do
     subject(:call) { described_class.call(project_path, **kwargs) }
 
+    around do |example|
+      Dir.mktmpdir do |dir|
+        @project_path = dir
+        example.run
+      end
+    end
+
+    let(:project_path) { @project_path }
     let(:kwargs) { {} }
     let(:parsed_yaml) { YAML.safe_load(call) }
 
     context "without custom config" do
-      let(:project_path) { fixture_project_path(project_type: "empty") }
-
       it "generates valid YAML" do
         expect { parsed_yaml }.not_to raise_error
       end
@@ -20,25 +29,36 @@ RSpec.describe Muxify::Builder do
     end
 
     context "with blank custom config" do
-      let(:project_path) { fixture_project_path(project_type: "empty_with_blank_custom_config") }
       let(:kwargs) { {custom_config_path: File.join(project_path, ".muxifyrc")}  }
+
+      before do
+        FileUtils.touch(File.join(project_path, ".muxifyrc"))
+      end
 
       it "has default config" do
         expect(parsed_yaml).to eq(expected_config({}))
       end
     end
 
-    context "with custom config (kwarg)" do
-      let(:project_path) { fixture_project_path(project_type: "with_custom_config") }
+    context "with custom config" do
       let(:kwargs) { {custom_config_path: File.join(project_path, ".muxifyrc")}  }
+
+      before do
+        File.open(File.join(project_path, ".muxifyrc"), "w") do |file|
+          file << <<~YAML
+            ---
+            #{File.basename(project_path)}:
+              windows:
+                nested_by_project: "true"
+            windows:
+              not_nested: "true"
+          YAML
+        end
+      end
 
       it "applies kwarg .muxifyrc" do
         expect(parsed_yaml).to eq(expected_config("nested_by_project" => "true", "not_nested" => "true"))
       end
-    end
-
-    def fixture_project_path(project_type:)
-      File.expand_path(project_type, File.join(__dir__, "../fixtures/example_projects"))
     end
 
     def expected_config(extra_windows)
