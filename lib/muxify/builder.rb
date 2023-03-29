@@ -7,8 +7,8 @@ module Muxify
     DEFAULT_CUSTOM_CONFIG_PATH = File.join(ENV["HOME"], ".muxifyrc")
     private_constant :DEFAULT_CUSTOM_CONFIG_PATH
 
-    def self.call(*args)
-      new(*args).to_yaml
+    def self.call(path, **kwargs)
+      new(path, **kwargs).to_yaml
     end
 
     def initialize(root, name: nil, custom_config_path: nil)
