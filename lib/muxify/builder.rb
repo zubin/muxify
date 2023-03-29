@@ -11,10 +11,9 @@ module Muxify
       new(path, **kwargs).to_yaml
     end
 
-    def initialize(root, name: nil, custom_config_path: nil)
+    def initialize(root, name: nil)
       @root = File.expand_path(root)
       @name = name || File.basename(@root)
-      @custom_config_path = custom_config_path
     end
 
     def to_yaml
@@ -23,7 +22,7 @@ module Muxify
 
     private
 
-    attr_reader :root, :name, :custom_config_path
+    attr_reader :root, :name
 
     def config
       {
@@ -54,7 +53,6 @@ module Muxify
       [
         DEFAULT_CUSTOM_CONFIG_PATH,
         project_custom_config_path,
-        custom_config_path
       ].compact.uniq.select(&File.method(:exist?))
     end
 

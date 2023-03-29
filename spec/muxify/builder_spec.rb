@@ -5,7 +5,7 @@ require "tmpdir"
 
 RSpec.describe Muxify::Builder do
   describe ".call" do
-    subject(:call) { described_class.call(project_path, **kwargs) }
+    subject(:call) { described_class.call(project_path) }
 
     around do |example|
       Dir.mktmpdir do |dir|
@@ -15,7 +15,6 @@ RSpec.describe Muxify::Builder do
     end
 
     let(:project_path) { @project_path }
-    let(:kwargs) { {} }
     let(:parsed_yaml) { YAML.safe_load(call) }
 
     context "without custom config" do
@@ -29,8 +28,6 @@ RSpec.describe Muxify::Builder do
     end
 
     context "with blank custom config" do
-      let(:kwargs) { {custom_config_path: File.join(project_path, ".muxifyrc")}  }
-
       before do
         FileUtils.touch(File.join(project_path, ".muxifyrc"))
       end
@@ -41,8 +38,6 @@ RSpec.describe Muxify::Builder do
     end
 
     context "with custom config" do
-      let(:kwargs) { {custom_config_path: File.join(project_path, ".muxifyrc")}  }
-
       before do
         File.open(File.join(project_path, ".muxifyrc"), "w") do |file|
           file << <<~YAML
@@ -56,7 +51,7 @@ RSpec.describe Muxify::Builder do
         end
       end
 
-      it "applies kwarg .muxifyrc" do
+      it "applies .muxifyrc config" do
         expect(parsed_yaml).to eq(expected_config("nested_by_project" => "true", "not_nested" => "true"))
       end
     end
