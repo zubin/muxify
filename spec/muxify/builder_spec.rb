@@ -56,6 +56,23 @@ RSpec.describe Muxify::Builder do
       end
     end
 
+    context "with a logfile" do
+      before do
+        Dir.mkdir(File.dirname(logfile))
+        File.open(logfile, "w") { |file| file << "some logs" }
+      end
+
+      let(:logfile) { File.join(project_path, "log/debug.log") }
+
+      it "adds 'logs' window" do
+        expect(parsed_yaml).to eq(expected_config("logs" => "tail -f log/*.log"))
+      end
+
+      it "truncates logile" do
+        expect { call }.to change { File.read(logfile) }.to("")
+      end
+    end
+
     def expected_config(extra_windows)
       {
         "name" => File.basename(project_path),
