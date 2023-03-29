@@ -100,6 +100,28 @@ RSpec.describe Muxify::Builder do
           expect(parsed_yaml).to eq(expected_config(expected_windows))
         end
       end
+
+      context "with custom 'server' config" do
+        before do
+          File.write(File.join(project_path, ".muxifyrc"), <<~YAML)
+            ---
+            windows:
+              server: "foreman start"
+          YAML
+        end
+
+        let(:expected_windows) do
+          {
+            "db" => "rails db",
+            "console" => "rails console",
+            "server" => "foreman start",
+          }
+        end
+
+        it "overrides default" do
+          expect(parsed_yaml).to eq(expected_config(expected_windows))
+        end
+      end
     end
 
     context "with a non-Phoenix Elixir app" do

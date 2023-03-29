@@ -33,11 +33,15 @@ module Muxify
     end
 
     def windows
-      Windows.new(root).all.tap do |windows|
+      windows = Windows.new(root).all.tap do |windows|
         custom_windows.each do |name, command|
           windows << {name => command}
         end
       end
+
+      windows
+        .each_with_object({}) { |window, result| result[window.keys.first] = window.values.first }
+        .each_with_object([]) { |(k, v), result| result << {k => v} }
     end
 
     def custom_windows
