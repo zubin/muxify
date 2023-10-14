@@ -4,9 +4,6 @@ require "yaml"
 
 module Muxify
   class Builder
-    DEFAULT_CUSTOM_CONFIG_PATH = File.join(ENV["HOME"], ".muxify.yml")
-    private_constant :DEFAULT_CUSTOM_CONFIG_PATH
-
     def self.call(path, **kwargs)
       new(path, **kwargs).to_yaml
     end
@@ -47,7 +44,6 @@ module Muxify
     def custom_windows
       custom_config_paths.each_with_object({}) do |custom_config_path, result|
         [
-          YAML.safe_load_file(custom_config_path)&.dig(name, "windows"),
           YAML.safe_load_file(custom_config_path)&.dig("windows")
         ].compact.each(&result.method(:merge!))
       end
@@ -55,7 +51,6 @@ module Muxify
 
     def custom_config_paths
       [
-        DEFAULT_CUSTOM_CONFIG_PATH,
         project_custom_config_path,
       ].compact.uniq.select(&File.method(:exist?))
     end

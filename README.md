@@ -69,34 +69,13 @@ Depending on its type, this will create the following tmux windows for a project
 
 ## Customising projects
 
-Each project may have custom windows via a `.muxify.yml` file.
+For custom configuration, add a `.muxify.yml` file to the top level of the project directory.
 
-### Using a .muxify.yml in your home directory
-
-1. Create a file called `~/.muxify.yml`.
-1. Edit it in YAML format; eg to add a tmux window to `my_app` project which is named `server` and invokes `yarn dev`:
-
-```yaml
-my_app:
-  windows:
-    server: yarn dev
-```
-
-If you want a custom window for all projects:
+For example, to start Docker in a project, the following could be added to its `.muxify.yml`:
 
 ```yaml
 windows:
-  echo_all_projects: "echo 'this will apply to all projects'"
-```
-
-### Using a .muxify.yml in your project directory
-
-1. Create a file called `my_app/.muxify.yml` (given your project is in `my_app`).
-1. Edit it in YAML format; eg to add a tmux window to `my_app` project which is named `server` and invokes `yarn dev`:
-
-```yaml
-windows:
-  server: yarn dev
+  docker: docker compose up
 ```
 
 ## Thanks

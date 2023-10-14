@@ -41,16 +41,13 @@ RSpec.describe Muxify::Builder do
       before do
         File.write(File.join(project_path, ".muxify.yml"), <<~YAML)
           ---
-          #{File.basename(project_path)}:
-            windows:
-              nested_by_project: "true"
           windows:
-            not_nested: "true"
+            docker: docker compose up
         YAML
       end
 
       it "applies .muxify.yml config" do
-        expect(parsed_yaml).to eq(expected_config("nested_by_project" => "true", "not_nested" => "true"))
+        expect(parsed_yaml).to eq(expected_config("docker" => "docker compose up"))
       end
     end
 
