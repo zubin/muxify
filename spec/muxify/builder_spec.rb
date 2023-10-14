@@ -8,8 +8,8 @@ RSpec.describe Muxify::Builder do
     subject(:call) { described_class.call(project_path) }
 
     around do |example|
-      Dir.mktmpdir do |dir|
-        @project_path = dir
+      Dir.mktmpdir do |tmpdir|
+        @project_path = tmpdir
         example.run
       end
     end
