@@ -29,7 +29,7 @@ RSpec.describe Muxify::Builder do
 
     context "with blank custom config" do
       before do
-        FileUtils.touch(File.join(project_path, ".muxifyrc"))
+        FileUtils.touch(File.join(project_path, ".muxify.yml"))
       end
 
       it "has default config" do
@@ -39,7 +39,7 @@ RSpec.describe Muxify::Builder do
 
     context "with custom config" do
       before do
-        File.write(File.join(project_path, ".muxifyrc"), <<~YAML)
+        File.write(File.join(project_path, ".muxify.yml"), <<~YAML)
           ---
           #{File.basename(project_path)}:
             windows:
@@ -49,7 +49,7 @@ RSpec.describe Muxify::Builder do
         YAML
       end
 
-      it "applies .muxifyrc config" do
+      it "applies .muxify.yml config" do
         expect(parsed_yaml).to eq(expected_config("nested_by_project" => "true", "not_nested" => "true"))
       end
     end
@@ -103,7 +103,7 @@ RSpec.describe Muxify::Builder do
 
       context "with custom 'server' config" do
         before do
-          File.write(File.join(project_path, ".muxifyrc"), <<~YAML)
+          File.write(File.join(project_path, ".muxify.yml"), <<~YAML)
             ---
             windows:
               server: "foreman start"

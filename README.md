@@ -69,11 +69,11 @@ Depending on its type, this will create the following tmux windows for a project
 
 ## Customising projects
 
-Each project may have custom windows via a `.muxifyrc` file.
+Each project may have custom windows via a `.muxify.yml` file.
 
-### Using a .muxifyrc in your home directory
+### Using a .muxify.yml in your home directory
 
-1. Create a file called `~/.muxifyrc`.
+1. Create a file called `~/.muxify.yml`.
 1. Edit it in YAML format; eg to add a tmux window to `my_app` project which is named `server` and invokes `yarn dev`:
 
 ```yaml
@@ -89,9 +89,9 @@ windows:
   echo_all_projects: "echo 'this will apply to all projects'"
 ```
 
-### Using a .muxifyrc in your project directory
+### Using a .muxify.yml in your project directory
 
-1. Create a file called `my_app/.muxifyrc` (given your project is in `my_app`).
+1. Create a file called `my_app/.muxify.yml` (given your project is in `my_app`).
 1. Edit it in YAML format; eg to add a tmux window to `my_app` project which is named `server` and invokes `yarn dev`:
 
 ```yaml

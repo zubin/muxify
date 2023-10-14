@@ -4,7 +4,7 @@ require "yaml"
 
 module Muxify
   class Builder
-    DEFAULT_CUSTOM_CONFIG_PATH = File.join(ENV["HOME"], ".muxifyrc")
+    DEFAULT_CUSTOM_CONFIG_PATH = File.join(ENV["HOME"], ".muxify.yml")
     private_constant :DEFAULT_CUSTOM_CONFIG_PATH
 
     def self.call(path, **kwargs)
@@ -61,7 +61,7 @@ module Muxify
     end
 
     def project_custom_config_path
-      File.join(root, ".muxifyrc")
+      File.join(root, ".muxify.yml")
     end
 
     class Windows
