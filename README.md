@@ -17,27 +17,32 @@ Why?
 ## Installation
 
 ```sh
-$ gem install muxify
+gem install muxify
 ```
 
 ## Usage
 
 ```sh
-$ muxify -h
-
+$ muxify help
 Commands:
   muxify add             # Adds tmuxinator config for current (or supplied) path
   muxify debug           # Prints tmuxinator config of current (or supplied) path to stdout
   muxify help [COMMAND]  # Describe available commands or one specific command
   muxify stop            # Kills tmux session
+  muxify version         # Print current version
 ```
 
-For example, add a project like so:
+### Example
 
 ```sh
-$ muxify add /path/to/my_app
-$ mux my_app
+# Add a new project (do this once)
+muxify add path/to/myproject
+
+# Load the project
+mux myproject
 ```
+
+## How it works
 
 Depending on its type, this will create the following tmux windows for a project:
 

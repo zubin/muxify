@@ -2,6 +2,7 @@
 
 lib = File.expand_path("lib", __dir__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
+
 require "muxify/version"
 
 Gem::Specification.new do |spec|
@@ -16,6 +17,7 @@ Gem::Specification.new do |spec|
   spec.files = `git ls-files -z`.split("\x0").reject do |f|
     f.match(%r{^(test|spec|features)/})
   end
+
   spec.bindir = "bin"
   spec.executables = ["muxify"]
   spec.require_paths = ["lib"]
