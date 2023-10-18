@@ -1,0 +1,5 @@
+# Conventional Changelog Action
+# Bump version, tag commit and generates changelog with conventional commits
+# https://github.com/marketplace/actions/conventional-changelog-action
+name: Conventional Changelog Action
+uses: TriPSs/conventional-changelog-action@v4.1.0
